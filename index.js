@@ -7,7 +7,6 @@ const middleware = require('./lib/middleware');
 const reporter = require('./lib/reporter');
 const { setFs, toDisk } = require('./lib/fs');
 const { getFilenameFromUrl, noop, ready } = require('./lib/util');
-const setupHooks = require("./lib/setupHooks");
 
 const defaults = {
   logLevel: 'info',
@@ -28,7 +27,7 @@ const defaults = {
 module.exports = function wdm(compiler, opts) {
   const options = Object.assign({}, defaults, opts);
 
-  // defining custom MIME type
+  // define custom MIME types if provided
   if (options.mimeTypes) {
     const typeMap = options.mimeTypes.typeMap || options.mimeTypes;
     const force = !!options.mimeTypes.force;
@@ -36,8 +35,6 @@ module.exports = function wdm(compiler, opts) {
   }
 
   const context = createContext(compiler, options);
-
-  context.logger = compiler.getInfrastructureLogger("webpack-dev-middleware");
 
   // start watching
   if (!options.lazy) {
@@ -69,7 +66,6 @@ module.exports = function wdm(compiler, opts) {
 
   return Object.assign(middleware(context), {
     close(callback) {
-      // eslint-disable-next-line no-param-reassign
       callback = callback || noop;
 
       if (context.watching) {
@@ -90,7 +86,6 @@ module.exports = function wdm(compiler, opts) {
     ),
 
     invalidate(callback) {
-      // eslint-disable-next-line no-param-reassign
       callback = callback || noop;
 
       if (context.watching) {
@@ -102,7 +97,6 @@ module.exports = function wdm(compiler, opts) {
     },
 
     waitUntilValid(callback) {
-      // eslint-disable-next-line no-param-reassign
       callback = callback || noop;
 
       ready(context, callback, {});
