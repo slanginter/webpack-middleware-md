@@ -7,6 +7,7 @@ const middleware = require('./lib/middleware');
 const reporter = require('./lib/reporter');
 const { setFs, toDisk } = require('./lib/fs');
 const { getFilenameFromUrl, noop, ready } = require('./lib/util');
+const setupHooks = require("./lib/setupHooks");
 
 const defaults = {
   logLevel: 'info',
