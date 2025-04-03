@@ -37,6 +37,8 @@ module.exports = function wdm(compiler, opts) {
 
   const context = createContext(compiler, options);
 
+  context.logger = compiler.getInfrastructureLogger("webpack-dev-middleware");
+
   // start watching
   if (!options.lazy) {
     context.watching = compiler.watch(options.watchOptions, (err) => {
